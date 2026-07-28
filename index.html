@@ -68,7 +68,7 @@
     document.getElementById("contact-open").addEventListener("click",()=>dialog.showModal());
     document.getElementById("contact-close").addEventListener("click",()=>dialog.close());
     dialog.addEventListener("click",e=>{if(e.target===dialog)dialog.close()});
-    window.addEventListener("load",()=>{widgetId=turnstile.render("#turnstile",{sitekey:"0x4AAAAAAD_4kPSYJJw4nIba",size:"invisible",execution:"execute",appearance:"execute-only",callback:submitContact,"error-callback":()=>finish("Please try again.",true)})});
+    window.addEventListener("load",()=>{widgetId=turnstile.render("#turnstile",{sitekey:"0x4AAAAAAD_4kPSYJJw4nIba",execution:"execute",appearance:"execute-only",callback:submitContact,"error-callback":()=>finish("Please try again.",true)})});
     form.addEventListener("submit",e=>{e.preventDefault();if(!form.reportValidity())return;pending=Object.fromEntries(new FormData(form));send.disabled=true;send.textContent="Sending…";status.textContent="";turnstile.execute(widgetId)});
     async function submitContact(token){try{const r=await fetch("/api/contact",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({...pending,token})});const data=await r.json();if(!r.ok)throw new Error(data.error||"Unable to send");form.reset();finish("Thanks — your message has been sent.",false)}catch(e){finish(e.message||"Unable to send. Please try again.",true)}finally{turnstile.reset(widgetId)}}
     function finish(message,isError){status.textContent=message;status.style.color=isError?"#a13120":"#2f6b45";send.disabled=false;send.textContent="Send"}
