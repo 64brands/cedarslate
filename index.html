@@ -7,7 +7,7 @@
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <meta name="description" content="Cedar+Slate is an independent Australian software studio.">
   <title>Cedar+Slate — Australian software studio</title>
-  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" defer></script>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" defer></script>
   <style>
     :root{color-scheme:light;--charcoal:#3d3d3d;--orange:#f15a00;--paper:#f0efee;--line:rgba(61,61,61,.22)}
     *{box-sizing:border-box}
@@ -70,5 +70,6 @@
     dialog.addEventListener("click",e=>{if(e.target===dialog)dialog.close()});
     form.addEventListener("submit",async e=>{e.preventDefault();if(!form.reportValidity())return;if(!token){finish("Please complete the security check.",true);return}const data=Object.fromEntries(new FormData(form));send.disabled=true;send.textContent="Sending…";status.textContent="";try{const r=await fetch("/api/contact",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({...data,token})});const result=await r.json();if(!r.ok)throw new Error(result.error||"Unable to send");form.reset();finish("Thanks — your message has been sent.",false)}catch(error){finish(error.message||"Unable to send. Please try again.",true)}finally{token="";turnstile.reset(widgetId)}});
     function finish(message,isError){status.textContent=message;status.style.color=isError?"#a13120":"#2f6b45";send.disabled=false;send.textContent="Send"}
-  </script>/body>
+  </script>
+</body>
 </html>
