@@ -8,12 +8,12 @@ export async function onRequestPost({request,env}){
     if(!type.includes("application/json"))return json({error:"Invalid request."},415);
     const body=await request.json();
     if(body.company)return json({ok:true});
-    const name=clean(body.name,80),email=clean(body.email,160),message=clean(body.message,3000),token=clean(body.token,2048);
-    if(name.length<2||message.length<10||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)||!token)return json({error:"Please complete every field."},400);
-    const verifyBody=new URLSearchParams({secret:env.TURNSTILE_SECRET_KEY,response:token,remoteip:request.headers.get("CF-Connecting-IP")||""});
-    const verify=await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify",{method:"POST",body:verifyBody});
-    const result=await verify.json();
-    if(!result.success)return json({error:"Verification failed. Please try again."},403);
+    const origin=request.headers.get("origin")||"";
+    if(origin!=="https://cedarslate.com.au"&&origin!=="https://www.cedarslate.com.au")return json({error:"Invalid request."},403);
+    const openedAt=Number(body.openedAt||0);
+    if(!openedAt||Date.now()-openedAt<2000||Date.now()-openedAt>3600000)return json({error:"Please wait a moment and try again."},429);
+    const name=clean(body.name,80),email=clean(body.email,160),message=clean(body.message,3000);
+    if(name.length<2||message.length<10||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))return json({error:"Please complete every field."},400);
     const safeName=escapeHtml(name),safeEmail=escapeHtml(email),safeMessage=escapeHtml(message).replace(/\n/g,"<br>");
     const sent=await fetch("https://api.resend.com/emails",{method:"POST",headers:{Authorization:`Bearer `+env.RESEND_API_KEY,"Content-Type":"application/json"},body:JSON.stringify({from:"Cedar+Slate Website <website@cedarslate.com.au>",to:["hello@cedarslate.com.au"],reply_to:email,subject:`Website enquiry from `+name,text:`Name: `+name+`\nEmail: `+email+`\n\n`+message,html:`<p><strong>Name:</strong> `+safeName+`</p><p><strong>Email:</strong> `+safeEmail+`</p><p>`+safeMessage+`</p>`})});
     if(!sent.ok){console.error("Resend delivery failed",sent.status);return json({error:"Unable to send right now. Please try again shortly."},502)}
