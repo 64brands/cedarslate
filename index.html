@@ -3,35 +3,44 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f0efee">
   <meta name="description" content="Cedar+Slate is an independent Australian software studio.">
   <title>Cedar+Slate — Australian software studio</title>
   <style>
-    :root{color-scheme:light;--ink:#171717;--paper:#f7f6f2;--line:rgba(23,23,23,.18)}
+    :root{color-scheme:light;--charcoal:#3d3d3d;--orange:#f15a00;--paper:#f0efee;--line:rgba(61,61,61,.22)}
     *{box-sizing:border-box}
     html,body{margin:0;min-height:100%}
-    body{min-height:100vh;background:var(--paper);color:var(--ink);font-family:Arial,Helvetica,sans-serif;display:grid;grid-template-rows:auto 1fr auto;padding:clamp(24px,4vw,56px)}
-    header,footer{display:flex;align-items:center;justify-content:space-between;gap:24px}
-    .wordmark{color:inherit;text-decoration:none;font-size:clamp(1.2rem,2vw,1.55rem);font-weight:700;letter-spacing:-.04em}
-    .wordmark span{font-weight:400}
-    main{display:grid;place-items:center;padding:10vh 0}
-    .hero{width:min(900px,100%);text-align:center}
-    .eyebrow{margin:0 0 24px;text-transform:uppercase;letter-spacing:.16em;font-size:.72rem;font-weight:700}
-    h1{margin:0;font-size:clamp(3rem,9vw,8rem);line-height:.9;letter-spacing:-.065em;font-weight:600}
-    .intro{max-width:620px;margin:36px auto 0;font-size:clamp(1.05rem,2vw,1.35rem);line-height:1.55}
-    footer{border-top:1px solid var(--line);padding-top:24px;font-size:.88rem}
-    footer a{color:inherit;text-decoration:none;border-bottom:1px solid currentColor}
-    @media(max-width:600px){footer{align-items:flex-start;flex-direction:column-reverse}main{padding:12vh 0}}
+    body{min-height:100vh;background:var(--paper);color:var(--charcoal);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;display:grid;grid-template-rows:auto 1fr auto;padding:clamp(24px,4vw,58px)}
+    header,footer{display:flex;align-items:center;justify-content:space-between;gap:28px}
+    .brand{display:block;width:clamp(210px,25vw,330px)}
+    .brand img{display:block;width:100%;height:auto}
+    .location{margin:0;font-size:.72rem;font-weight:650;letter-spacing:.16em;text-transform:uppercase}
+    main{display:grid;place-items:center;padding:8vh 0}
+    .hero{width:min(980px,100%);text-align:center}
+    .rule{display:block;width:44px;height:3px;margin:0 auto 34px;background:var(--orange)}
+    h1{margin:0;font-size:clamp(3.15rem,8.5vw,8.25rem);font-weight:350;line-height:.92;letter-spacing:-.065em}
+    .intro{max-width:650px;margin:38px auto 0;font-size:clamp(1.04rem,1.8vw,1.3rem);line-height:1.6;font-weight:400}
+    footer{border-top:1px solid var(--line);padding-top:24px;font-size:.86rem}
+    footer a{color:inherit;text-decoration:none;border-bottom:1px solid var(--orange);padding-bottom:3px}
+    footer a:hover,footer a:focus-visible{color:var(--orange)}
+    @media(max-width:620px){header{align-items:flex-start;flex-direction:column}.brand{width:min(260px,78vw)}.location{padding-left:2px}main{padding:11vh 0}footer{align-items:flex-start;flex-direction:column-reverse}}
   </style>
 </head>
 <body>
-  <header><a class="wordmark" href="/" aria-label="Cedar and Slate home">Cedar<span>+</span>Slate</a></header>
+  <header>
+    <a class="brand" href="/" aria-label="Cedar+Slate home"><img src="/assets/cedar-slate.svg" alt="Cedar+Slate"></a>
+    <p class="location">Made in Australia</p>
+  </header>
   <main>
     <section class="hero">
-      <p class="eyebrow">Australian software studio</p>
+      <span class="rule" aria-hidden="true"></span>
       <h1>Thoughtful software,<br>made with care.</h1>
-      <p class="intro">Cedar+Slate is an independent studio creating useful, beautifully considered software in Australia.</p>
+      <p class="intro">Cedar+Slate is an independent Australian studio creating useful, beautifully considered software.</p>
     </section>
   </main>
-  <footer><span>© 2026 Cedar+Slate</span><a href="mailto:hello@cedarslate.com.au">hello@cedarslate.com.au</a></footer>
+  <footer>
+    <span>© 2026 Cedar+Slate</span>
+    <a href="mailto:hello@cedarslate.com.au">hello@cedarslate.com.au</a>
+  </footer>
 </body>
 </html>
