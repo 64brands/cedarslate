@@ -2,7 +2,7 @@
 
 Public online presence for **Cedar+Slate**, an independent Australian software studio.
 
-This site is intentionally minimal: one clean landing page, a contact form, and a legal centre. It is an online presence, not a marketing funnel — no phone numbers or street address on the presence pages. Entity details (ABN, PO Box) stay in the legal documents only.
+This site is intentionally minimal: one clean landing page, a contact form, and a legal centre. It is an online presence, not a marketing funnel — no studio phone number or street address published on the presence pages. The contact form may collect a visitor phone number (default country code `+61`). Entity details (ABN, PO Box) stay in the legal documents only.
 
 Live site: [https://cedarslate.com.au](https://cedarslate.com.au)
 
