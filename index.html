@@ -27,7 +27,7 @@
     .contact-trigger:hover,.contact-trigger:focus-visible{color:var(--orange)}
     dialog{width:min(460px,calc(100vw - 32px));border:1px solid rgba(61,61,61,.16);border-radius:24px;padding:0;background:rgba(240,239,238,.97);color:var(--charcoal);box-shadow:0 24px 80px rgba(20,20,20,.18);backdrop-filter:blur(24px)}
     dialog::backdrop{background:rgba(30,30,30,.28);backdrop-filter:blur(8px)}
-    .contact-panel{padding:28px}.contact-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}.contact-head h2{margin:0;font-size:1.35rem;font-weight:550;letter-spacing:-.03em}.close{appearance:none;border:0;border-radius:50%;width:32px;height:32px;background:rgba(61,61,61,.09);color:inherit;font-size:1.2rem;line-height:1;cursor:pointer}.contact-form{display:grid;gap:12px}.field{display:grid;gap:6px}.field label{font-size:.76rem;font-weight:600}.field input,.field textarea{width:100%;border:1px solid rgba(61,61,61,.18);border-radius:12px;background:rgba(255,255,255,.62);color:inherit;font:inherit;font-size:.95rem;padding:11px 13px;outline:none}.field textarea{min-height:112px;resize:vertical}.field input:focus,.field textarea:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(241,90,0,.1)}.form-actions{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:5px}.privacy{margin:0;max-width:230px;font-size:.68rem;line-height:1.4;color:rgba(61,61,61,.72)}.send{appearance:none;border:0;border-radius:999px;padding:10px 18px;background:var(--charcoal);color:var(--paper);font:inherit;font-size:.86rem;font-weight:600;cursor:pointer}.send:hover,.send:focus-visible{background:var(--orange)}.send:disabled{opacity:.55;cursor:wait}.form-status{min-height:1.25em;margin:2px 0 0;font-size:.78rem}.hp{position:absolute;left:-9999px}
+    .contact-panel{padding:28px}.contact-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}.contact-head h2{margin:0;font-size:1.35rem;font-weight:550;letter-spacing:-.03em}.close{appearance:none;border:0;border-radius:50%;width:32px;height:32px;background:rgba(61,61,61,.09);color:inherit;font-size:1.2rem;line-height:1;cursor:pointer}.contact-form{display:grid;gap:12px}.field{display:grid;gap:6px}.field label{font-size:.76rem;font-weight:600}.field input,.field textarea,.field select{width:100%;border:1px solid rgba(61,61,61,.18);border-radius:12px;background:rgba(255,255,255,.62);color:inherit;font:inherit;font-size:.95rem;padding:11px 13px;outline:none}.field textarea{min-height:112px;resize:vertical}.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(241,90,0,.1)}.field .field-label{font-size:.76rem;font-weight:600}.phone-row{display:grid;grid-template-columns:118px 1fr;gap:10px}.phone-row select{padding-right:8px}.form-actions{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:5px}.privacy{margin:0;max-width:230px;font-size:.68rem;line-height:1.4;color:rgba(61,61,61,.72)}.send{appearance:none;border:0;border-radius:999px;padding:10px 18px;background:var(--charcoal);color:var(--paper);font:inherit;font-size:.86rem;font-weight:600;cursor:pointer}.send:hover,.send:focus-visible{background:var(--orange)}.send:disabled{opacity:.55;cursor:wait}.form-status{min-height:1.25em;margin:2px 0 0;font-size:.78rem}.hp{position:absolute;left:-9999px}
     footer a{color:inherit;text-decoration:none;border-bottom:1px solid var(--orange);padding-bottom:3px}
     footer a:hover,footer a:focus-visible{color:var(--orange)}
     @media(max-width:620px){h1{font-size:10vw;white-space:nowrap}header{align-items:flex-start;flex-direction:column}.brand{width:min(260px,78vw)}.location{padding-left:2px}main{padding:11vh 0}footer{align-items:flex-start;flex-direction:column-reverse}.footer-links{gap:14px}}
@@ -59,7 +59,7 @@
       <form class="contact-form" id="contact-form">
         <div class="field"><label for="name">Name</label><input id="name" name="name" autocomplete="name" maxlength="80" required></div>
         <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" maxlength="160" required></div>
-        <div class="field"><label for="phone">Phone <span style="font-weight:400;color:rgba(61,61,61,.62)">(optional)</span></label><input id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" maxlength="30" value="+61 "></div>
+        <div class="field"><span class="field-label" id="phone-label">Phone <span style="font-weight:400;color:rgba(61,61,61,.62)">(optional)</span></span><div class="phone-row"><select id="country-code" name="countryCode" aria-label="Country code"><option value="+61" selected>AU +61</option><option value="+64">NZ +64</option><option value="+1">US +1</option><option value="+1">CA +1</option><option value="+44">UK +44</option><option value="+353">IE +353</option><option value="+65">SG +65</option><option value="+49">DE +49</option><option value="+33">FR +33</option><option value="+81">JP +81</option></select><input id="phone" name="phoneLocal" type="tel" autocomplete="tel-national" inputmode="tel" maxlength="20" placeholder="Phone number" aria-labelledby="phone-label"></div></div>
         <div class="field"><label for="message">Message</label><textarea id="message" name="message" maxlength="3000" required></textarea></div>
         <label class="hp" aria-hidden="true">Company<input name="company" tabindex="-1" autocomplete="off"></label>
         <p class="form-status" id="form-status" role="status"></p>
@@ -68,11 +68,26 @@
     </div>
   </dialog>
   <script>
-    const dialog=document.getElementById("contact-dialog"),form=document.getElementById("contact-form"),status=document.getElementById("form-status"),send=form.querySelector(".send");let openedAt=0;
+    const dialog=document.getElementById("contact-dialog"),form=document.getElementById("contact-form"),status=document.getElementById("form-status"),send=form.querySelector(".send"),countryCode=document.getElementById("country-code");let openedAt=0;
+    function resetPhoneDefaults(){countryCode.value="+61";form.phoneLocal.value=""}
     document.getElementById("contact-open").addEventListener("click",()=>{openedAt=Date.now();dialog.showModal()});
     document.getElementById("contact-close").addEventListener("click",()=>dialog.close());
     dialog.addEventListener("click",e=>{if(e.target===dialog)dialog.close()});
-    form.addEventListener("submit",async e=>{e.preventDefault();if(!form.reportValidity())return;const data=Object.fromEntries(new FormData(form));send.disabled=true;send.textContent="Sending…";status.textContent="";try{const r=await fetch("/api/contact",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({...data,openedAt})});const result=await r.json();if(!r.ok)throw new Error(result.error||"Unable to send");form.reset();openedAt=Date.now();finish("Thanks — your message has been sent.",false)}catch(error){finish(error.message||"Unable to send. Please try again.",true)}});
+    form.addEventListener("submit",async e=>{
+      e.preventDefault();
+      if(!form.reportValidity())return;
+      const data=Object.fromEntries(new FormData(form));
+      const local=String(data.phoneLocal||"").trim().replace(/^0/,"");
+      const phone=local?`${data.countryCode} ${local.replace(/^\+\d+\s*/,"")}`:"";
+      delete data.countryCode;delete data.phoneLocal;
+      send.disabled=true;send.textContent="Sending…";status.textContent="";
+      try{
+        const r=await fetch("/api/contact",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({...data,phone,openedAt})});
+        const result=await r.json();
+        if(!r.ok)throw new Error(result.error||"Unable to send");
+        form.reset();resetPhoneDefaults();openedAt=Date.now();finish("Thanks — your message has been sent.",false);
+      }catch(error){finish(error.message||"Unable to send. Please try again.",true)}
+    });
     function finish(message,isError){status.textContent=message;status.style.color=isError?"#a13120":"#2f6b45";send.disabled=false;send.textContent="Send"}
   </script>
 </body>
