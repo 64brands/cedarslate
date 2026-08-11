@@ -81,7 +81,15 @@ export async function stripeRequest(secretKey, path, params) {
 function flattenParams(obj, params, prefix) {
   for (const [key, value] of Object.entries(obj)) {
     const fullKey = prefix ? `${prefix}[${key}]` : key;
-    if (typeof value === "object" && value !== null && !Array.isArray(value)) {
+    if (Array.isArray(value)) {
+      value.forEach((item, index) => {
+        if (typeof item === "object" && item !== null) {
+          flattenParams(item, params, `${fullKey}[${index}]`);
+        } else {
+          params.append(`${fullKey}[${index}]`, String(item));
+        }
+      });
+    } else if (typeof value === "object" && value !== null) {
       flattenParams(value, params, fullKey);
     } else {
       params.append(fullKey, String(value));
