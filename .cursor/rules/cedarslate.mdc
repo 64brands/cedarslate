@@ -1,0 +1,39 @@
+---
+description: Cedar+Slate website conventions for Cursor agents
+alwaysApply: true
+---
+
+# Cedar+Slate website
+
+## What this repo is
+
+- Public **online presence** for Cedar+Slate (Australian software studio).
+- Static HTML/CSS/JS plus one Cloudflare Pages Function at `functions/api/contact.js`.
+- Not a marketing funnel: no campaigns, promo clutter, phone numbers, or street address on presence pages.
+- No package manager, bundler, database, or CI unless explicitly introduced.
+
+## Presence and design
+
+- Keep the landing page as **one clean composition**. Prefer a single tidy page in an Apple-like software style: spare, calm, high clarity.
+- **Headline must remain:** Thoughtful software, made with purpose.
+- **Tagline must remain:** Cedar+Slate is an independent Australian studio creating useful, beautifully considered software.
+- Preserve current colour direction unless asked to change it: charcoal `#3d3d3d`, orange `#f15a00`, paper `#f0efee`; logo at `/assets/cedar-slate.svg`.
+- Do not add phone fields or postal/street address to the landing page or contact UI. ABN and PO Box stay in `legal/**` only.
+
+## Legal
+
+- Treat `legal/**` as sensitive. Do not rewrite Privacy/Terms unless Paul explicitly requests legal edits.
+
+## Contact API
+
+- Preserve: JSON POST, honeypot (`company`), origin allowlist for production hosts, timing check, HTML escaping, Resend from/to addresses unless asked to change them.
+- Production origins allowed: `https://cedarslate.com.au` and `https://www.cedarslate.com.au`.
+- Secrets (`RESEND_API_KEY`) live only in Cloudflare Pages env — never commit them.
+- Turnstile was intentionally removed; do not reintroduce third-party widgets without asking.
+
+## Workflow
+
+- Feature branches; PR into `main`; Cloudflare Pages deploys from `main`.
+- Prefer tiny, focused diffs. Match existing inline-CSS / single-file HTML patterns unless asked to refactor.
+- Do not add frameworks or dependencies without an explicit request.
+- Propose non-trivial changes and wait for approval when Paul has asked for suggest-then-approve.
